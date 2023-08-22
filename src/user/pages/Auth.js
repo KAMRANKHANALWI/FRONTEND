@@ -60,40 +60,38 @@ const Auth = () => {
 
   const authSubmitHandler = async event => {
     event.preventDefault();
-    
+
     if (isLoginMode) {
-        try {
-            await sendRequest(
-                'http://localhost:5000/api/users/login', 
-                'POST',
-                JSON.stringify({
-                    email: formState.inputs.email.value,
-                    password: formState.inputs.password.value
-                }),
-                {
-                    'Content-Type': 'application/json'
-                }
-            );
-            auth.login();
-        } catch (err) {
-
-        }   
+      try {
+        const responseData = await sendRequest(
+          'http://localhost:5000/api/users/login',
+          'POST',
+          JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          }),
+          {
+            'Content-Type': 'application/json'
+          }
+        );
+        auth.login(responseData.user.id);
+      } catch (err) {}
     } else {
-        try {
-          await sendRequest(
-                'http://localhost:5000/api/users/signup',
-                'POST',
-                JSON.stringify({
-                name: formState.inputs.name.value,
-                email: formState.inputs.email.value,
-                password: formState.inputs.password.value
-                }),
-                {
-                    'Content-Type': 'application/json'
-                }
-            );
+      try {
+        const responseData = await sendRequest(
+          'http://localhost:5000/api/users/signup',
+          'POST',
+          JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          }),
+          {
+            'Content-Type': 'application/json'
+          }
+        );
 
-          auth.login();
+        auth.login(responseData.user.id);
       } catch (err) {}
     }
   };
