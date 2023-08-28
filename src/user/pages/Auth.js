@@ -67,8 +67,6 @@ const Auth = () => {
   const authSubmitHandler = async event => {
     event.preventDefault();
 
-    console.log(formState.inputs);
-
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
@@ -87,10 +85,10 @@ const Auth = () => {
     } else {
       try {
         const formData = new FormData();
-        formData.append('email',formState.inputs.email.value);
-        formData.append('name',formState.inputs.name.value);
-        formData.append('password',formState.inputs.password.value);
-        formData.append('image', formData.inputs.image.value);
+        formData.append('email', formState.inputs.email.value);
+        formData.append('name', formState.inputs.name.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
         const responseData = await sendRequest(
           'http://localhost:5000/api/users/signup',
           'POST',
@@ -121,7 +119,9 @@ const Auth = () => {
               onInput={inputHandler}
             />
           )}
-          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
+          {!isLoginMode && (
+            <ImageUpload center id="image" onInput={inputHandler} />
+          )}
           <Input
             element="input"
             id="email"
